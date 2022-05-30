@@ -15,9 +15,20 @@ public class CameraScript : MonoBehaviour
     private float interpolationPrecision = 0.1f;
     [SerializeField]
     private float transitionSpeed = 2.0f;
-    private bool targetReached = true;
+    [SerializeField]
+    private GameObject platform, uic;
     private Vector3 starterPosition;
     private Vector3 starterRotation;
+    private bool targetReached = true;
+    private bool rotateAround = false;
+
+    public void setTargetReached(bool value) {
+        targetReached = value;
+    }
+
+    public void setRotateAround(bool value) {
+        rotateAround = value;
+    }
 
     void Start() {
         starterPosition = transform.position;
@@ -26,7 +37,16 @@ public class CameraScript : MonoBehaviour
 
     void Update()
     {
-        if (targetReached) {
+        /*
+        if (Input.GetKeyDown(KeyCode.L)) {
+            rotateAround = !rotateAround;
+        }
+        if (Input.GetKey(KeyCode.R)) {
+            targetReached = false;
+        }
+        */
+
+        if (targetReached && !rotateAround) {
             Vector3 pos = transform.position;
 
             if (Input.GetAxis("Vertical") != 0) {
@@ -49,9 +69,13 @@ public class CameraScript : MonoBehaviour
                 Vector3 rotateValue = new Vector3(mouseY, mouseX * -1 * rotationSpeed, 0);
                 transform.eulerAngles -= rotateValue;
             }
+        }
 
-            if (Input.GetKey(KeyCode.R)) {
-                targetReached = false;
+        else if (targetReached && rotateAround) {
+            if (Input.GetAxis("Horizontal") != 0) {
+                transform.RotateAround(platform.transform.position, new Vector3(0, 1, 0), speed * Input.GetAxis("Horizontal") * Time.deltaTime);
+                starterPosition = transform.position;
+                starterRotation = transform.eulerAngles;
             }
         }
 
@@ -61,6 +85,7 @@ public class CameraScript : MonoBehaviour
             if (Vector3.Distance(transform.position, starterPosition) <= interpolationPrecision 
                 && Vector3.Distance(transform.eulerAngles, starterRotation) <= interpolationPrecision) {
                 targetReached = true;
+                uic.GetComponent<UIControllerScript>().resetReturnToggle();
                 Debug.Log("Target Reached");
             }
         }

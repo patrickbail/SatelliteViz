@@ -6,6 +6,12 @@ TagManager:
   tags:
   - B1
   - B2
+  - B3
+  - Platform
+  - Receiver
+  - Reflected
+  - Scattered
+  - Diffracted
   layers:
   - Default
   - TransparentFX
