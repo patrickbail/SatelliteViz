@@ -2149,6 +2149,7 @@ MonoBehaviour:
   - {fileID: 2022044982743725218, guid: f751dfac442ef4048b31e32354d6b4c8, type: 3}
   - {fileID: 8123412414365241425, guid: 54dd640b25ae3b144b790f5e0477187c, type: 3}
   - {fileID: 2332364651359567362, guid: 54260939f633c7e48999bed9569429c6, type: 3}
+  buildingMaterial: {fileID: 2100000, guid: adc5314fcb9fff74383f6a7f2020f981, type: 2}
   spawnNumberBuildings: 10
   spawnNumberEavesdropper: 3
   radiusAroundLegitRecv: 30

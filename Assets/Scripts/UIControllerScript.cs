@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class UIControllerScript : MonoBehaviour
 {
@@ -31,6 +32,10 @@ public class UIControllerScript : MonoBehaviour
             GameObject pathScrollView = Instantiate(pathScrollViewPrefab);
             pathScrollView.transform.SetParent(uicanvas.transform, false);
             currentPathScrollView = pathScrollView;
+
+            currentPathScrollView.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = target.name;
+            currentPathScrollView.transform.GetChild(4).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = paths.Count.ToString();
+
             currentTarget = target;
 
             //Vector3 position = Camera.main.WorldToScreenPoint(target.transform.position);
@@ -58,7 +63,7 @@ public class UIControllerScript : MonoBehaviour
 
             pathScrollView.GetComponent<RectTransform>().anchoredPosition = (adjustedPosition - uicanvas.GetComponent<RectTransform>().sizeDelta / 2f) + offset;
 
-            GameObject content = pathScrollView.transform.GetChild(0).GetChild(0).gameObject;
+            GameObject content = pathScrollView.transform.GetChild(1).GetChild(0).gameObject;
             foreach (GameObject path in paths) {
                 if (!path.name.Contains(",")) {
                     GameObject pathText = Instantiate(pathTextPrefab);
@@ -91,9 +96,18 @@ public class UIControllerScript : MonoBehaviour
             currentCorrMatrixScrollView = Instantiate(pathScrollViewPrefab);
             currentCorrMatrixScrollView.transform.SetParent(uicanvas.transform, false);
 
+            currentCorrMatrixScrollView.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Correlation Matrix";
+            currentCorrMatrixScrollView.transform.GetChild(4).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = correlationMatrix.Count.ToString();
+
+            RectTransform uitransform = currentCorrMatrixScrollView.GetComponent<RectTransform>();
+
+            uitransform.anchorMin = new Vector2(1, 0.5f);
+            uitransform.anchorMax = new Vector2(1, 0.5f);
+            uitransform.pivot = new Vector2(1, 0.5f);
+
             //currentCorrMatrixScrollView.transform.position += offset;
 
-            GameObject content = currentCorrMatrixScrollView.transform.GetChild(0).GetChild(0).gameObject;
+            GameObject content = currentCorrMatrixScrollView.transform.GetChild(1).GetChild(0).gameObject;
             foreach (GameObject path in correlationMatrix) {
                 if (!path.name.Contains(",")) {
                     GameObject pathText = Instantiate(pathTextPrefab);
@@ -117,6 +131,10 @@ public class UIControllerScript : MonoBehaviour
         if (currentCorrMatrixScrollView != null) {
             Destroy(currentCorrMatrixScrollView);
             corrMatrixToggle.GetComponent<Toggle>().SetIsOnWithoutNotify(false);
+        }
+        if (currentPathScrollView != null) {
+            Destroy(currentPathScrollView);
+            currentPathScrollView = null;
         }
         gameObjectManager.GetComponent<GameObjectManager>().setStartSimulation();
     }

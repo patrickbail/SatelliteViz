@@ -6,7 +6,7 @@ public class SatelliteScript : MonoBehaviour
 {
     [SerializeField]
     private Material rayMaterial;
-    private int spawnRays = 100;
+    private int spawnRays = 1000;
     private float radiuesIncrease = 0.1f;
     //private List<GameObject> buildings = new List<GameObject>();
     //private List<GameObject> receivers = new List<GameObject>();
@@ -57,7 +57,7 @@ public class SatelliteScript : MonoBehaviour
 
     public void deletePaths() {
         foreach (GameObject path in paths) {
-                Destroy(path);
+            Destroy(path);
         }
     }
 
@@ -199,22 +199,26 @@ public class SatelliteScript : MonoBehaviour
         rayLine.startWidth = 0.5f;
         rayLine.endWidth = 0.5f;
         rayLine.material = rayMaterial;
-        rayLine.startColor = Color.black;
-        rayLine.endColor = Color.black;
+        //rayLine.startColor = Color.black;
+        //rayLine.endColor = Color.black;
+        rayLine.material.SetColor("_Color", new Color(0f, 0f, 0f, 0.5f));
         if (rayCase == "B1") {
             rayObj.tag = "Reflected";
-            rayLine.startColor = Color.red;
-            rayLine.endColor = Color.red;
+            //rayLine.startColor = Color.red;
+            //rayLine.endColor = Color.red;
+            rayLine.material.SetColor("_Color", new Color(1f, 0f, 0f, 0.5f));
         }
         else if (rayCase == "B2") {
             rayObj.tag = "Scattered";
-            rayLine.startColor = Color.green;
-            rayLine.endColor = Color.green;
+            //rayLine.startColor = Color.green;
+            //rayLine.endColor = Color.green;
+            rayLine.material.SetColor("_Color", new Color(0f, 1f, 0f, 0.5f));
         }
         else if (rayCase == "B3") {
             rayObj.tag = "Diffracted";
-            rayLine.startColor = Color.magenta;
-            rayLine.endColor = Color.magenta;
+            //rayLine.startColor = Color.magenta;
+            //rayLine.endColor = Color.magenta;
+            rayLine.material.SetColor("_Color", new Color(1f, 0f, 1f, 0.5f));
         }
 
         rayLine.positionCount = 0;

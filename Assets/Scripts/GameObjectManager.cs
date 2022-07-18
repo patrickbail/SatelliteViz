@@ -9,6 +9,8 @@ public class GameObjectManager : MonoBehaviour
     private GameObject platform, uic, satellitePrefab, legitReceiverPrefab, eavesdropperPrefab;
     [SerializeField]
     private List<GameObject> buildingPrefabs;
+    [SerializeField]
+    private Material buildingMaterial;
     private GameObject legitRecv;
     private GameObject satellite;
     private List<GameObject> eavesdropperList;
@@ -53,6 +55,7 @@ public class GameObjectManager : MonoBehaviour
             }
             //Spawn an instance of a legitimate receiver
             legitRecv = Instantiate(legitReceiverPrefab);
+            legitRecv.name = "Legitimate Receiver";
             legitRecv.transform.SetParent(platform.transform, false);
             Vector2 legitRecvNewPos = Random.insideUnitCircle * (platformRadius - 10);
             legitRecv.transform.position = new Vector3(legitRecvNewPos.x, 0, legitRecvNewPos.y);
@@ -171,6 +174,19 @@ public class GameObjectManager : MonoBehaviour
         //System.Random rnd = new System.Random();
         for (int i = 0; i < spawnNumberBuildings; i++) {
             GameObject newBuilding = Instantiate(buildingPrefabs[Random.Range(0, buildingPrefabs.Count)]);
+            for(int j = 0; j < newBuilding.transform.childCount; j++) {
+                GameObject child = newBuilding.transform.GetChild(j).gameObject;
+                child.GetComponent<MeshRenderer>().material = buildingMaterial;
+                if (newBuilding.tag == "B1") {
+                    child.GetComponent<MeshRenderer>().material.color = new Color(0.52f, 0f, 0f);
+                }
+                else if (newBuilding.tag == "B2") {
+                    child.GetComponent<MeshRenderer>().material.color = new Color(0.1f, 0.54f, 0.1f);
+                }
+                else {
+                    child.GetComponent<MeshRenderer>().material.color = new Color(0.54f, 0.04f, 0.54f);
+                }
+            }
             newBuilding.transform.SetParent(platform.transform, false);
             Vector2 newPos = Random.insideUnitCircle * (platformRadius - 10);
 
